@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -27,6 +29,7 @@ public class Transaction {
     private String toBranch;
     private String toAccount;
     private BigDecimal ammount;
-    private String timeStamp;
+    private LocalDate date;
+    private LocalTime time;
 
 }
