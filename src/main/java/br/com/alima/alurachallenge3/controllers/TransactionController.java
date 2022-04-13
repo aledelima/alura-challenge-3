@@ -36,7 +36,7 @@ public class TransactionController {
 
         // check if file is empty
         if (file.isEmpty()) {
-            attributes.addFlashAttribute("message", "Empty file.");
+            attributes.addFlashAttribute("message", "The file loaded is empty.");
             return "redirect:/files";
         }
 
@@ -49,16 +49,22 @@ public class TransactionController {
             return "redirect:/files";
         }
 
-        List<Transaction> transactions = service.fileToObj(br);
+        List<Transaction> transactions = null;
+        try {
+            transactions = service.fileToObj(br);
+        } catch (IOException e) {
+            e.printStackTrace();
+            attributes.addFlashAttribute("message", "Invalid Input format.");
+            return "redirect:/files";
+        }
         System.out.println();
         transactions.forEach(t -> System.out.println(t));
 
         if (service.containsDate(transactions)) {
-            attributes.addFlashAttribute("message", "Transactions already loaded for this date.");
+            attributes.addFlashAttribute("message", "Date already uploaded.");
             return "redirect:/files";
         }
 
-        transactions = service.filterValidDates(transactions);
         service.saveAll(transactions);
 
         attributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");

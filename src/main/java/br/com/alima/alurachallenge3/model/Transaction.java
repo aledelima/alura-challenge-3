@@ -28,7 +28,7 @@ public class Transaction {
     private String toBank;
     private String toBranch;
     private String toAccount;
-    private BigDecimal ammount;
+    private BigDecimal amount;
     private LocalDate date;
     private LocalTime time;
 
