@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Spring Boot & Thymeleaf File Upload</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<section>
+    <h2>Importation details</h2>
+
+    <form>
+        <div class="form-group row">
+            <label for="importedIn" class="col-sm-2 col-form-label">Imported In:</label>
+            <div class="col-sm-6">
+                <input id="importedIn" class="form-control" type="text" th:value="${import.timeStamp}" placeholder="Importation date" readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="importedBy" class="col-sm-2 col-form-label">Imported By:</label>
+            <div class="col-sm-6">
+                <input id="importedBy" class="form-control" type="text" th:value="${import.getUsername()}" placeholder="Importation Author" readonly>
+            </div>
+        </div>
+        <div class="fform-group row">
+            <label for="transactionsDate" class="col-sm-2 col-form-label">Imported In:</label>
+            <div class="col-sm-6">
+                <input id="transactionsDate" class="form-control" type="text" th:value="${import.transactionsDate}" placeholder="Date of Transcations" readonly>
+            </div>
+        </div>
+    </form>
+</section>
+
+<hr>
+
+<section>
+
+    <h3>Transactions Performed</h3>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th scope="col" colspan="3">Origin</th>
+                <th scope="col" colspan="3">Destination</th>
+                <th scope="col" colspan="1"></th>
+            </tr>
+            <tr>
+                <th scope="col">Bank</th>
+                <th scope="col">Branch</th>
+                <th scope="col">Account</th>
+                <th scope="col">Bank</th>
+                <th scope="col">Branch</th>
+                <th scope="col">Account</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="transaction : ${import.getTransactions()}">
+            <td><span th:text="${transaction.getFromBank()}"> From Bank </span></td>
+            <td><span th:text="${transaction.getFromBranch()}"> From Branch </span></td>
+            <td><span th:text="${transaction.getFromAccount()}"> From Account </span></td>
+            <td><span th:text="${transaction.getToBank()}"> To Bank </span></td>
+            <td><span th:text="${transaction.getToBranch()}"> To Branch </span></td>
+            <td><span th:text="${transaction.getToAccount()}"> To Account </span></td>
+            <td><span th:text="${transaction.getAmount()}"> Amount </span></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+</body>
+</html>

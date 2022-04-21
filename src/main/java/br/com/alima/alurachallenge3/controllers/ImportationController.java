@@ -1,17 +1,16 @@
 package br.com.alima.alurachallenge3.controllers;
 
+import br.com.alima.alurachallenge3.model.Importation;
 import br.com.alima.alurachallenge3.model.Transaction;
 import br.com.alima.alurachallenge3.model.dto.ImportationDTO;
+import br.com.alima.alurachallenge3.model.dto.TransactionDTO;
 import br.com.alima.alurachallenge3.services.ImportationService;
 import br.com.alima.alurachallenge3.services.TransactionService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,19 +32,31 @@ public class ImportationController {
 
     @GetMapping
     public String viewForm(Model model) {
-//        List<ImportationDTO> imports = importationService.findAll()
-//                .stream().map(i -> mapper.map(i, ImportationDTO.class)).collect(Collectors.toList());
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
+        //Still missing the implementation of User
         List<ImportationDTO> imports = importationService.findAll()
-                .stream().map(i -> new ImportationDTO(i.getTransactionsDate().toString(), i.getTimeStamp().format(formatter))).collect(Collectors.toList());
-
-
-//        String hojeFormatado = hoje.format(formatter);
+                .stream()
+                .map(i -> new ImportationDTO(i.getId(), i.getTransactionsDate().toString(), i.getTimeStamp().format(formatter), null, null)).collect(Collectors.toList());
 
         model.addAttribute("imports", imports);
         return "form";
+    }
+
+    @GetMapping("/{id}")
+
+    public String viewDetails(@PathVariable Integer id, Model model) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        Importation imp =  importationService.findById(id).get();
+        List<TransactionDTO> transactions = imp.getTransactions().stream().map(t -> mapper.map(t, TransactionDTO.class)).collect(Collectors.toList());
+        ImportationDTO impDTO = ImportationDTO.builder()
+                .id(imp.getId())
+                .transactionsDate(imp.getTransactionsDate().toString())
+                .timeStamp(imp.getTimeStamp().format(formatter))
+                .transactions(transactions)
+                .build();
+        model.addAttribute("import", impDTO);
+        return "import-details";
     }
 
     @PostMapping
@@ -90,12 +101,6 @@ public class ImportationController {
 
         importationService.save(transactions);
 
-//        if (transactionService.containsDate(transactions)) {
-//            attributes.addFlashAttribute("message", "Date already uploaded.");
-//            return "redirect:/imports";
-//        }
-
-//        transactionService.saveAll(transactions);
 
         attributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
 

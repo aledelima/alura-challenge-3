@@ -32,6 +32,10 @@ public class ImportationService {
         return repository.findImportationByTransactionsDate(date);
     }
 
+    public Optional<Importation> findById(Integer id) {
+        return repository.findById(id);
+    }
+
     public List<Importation> findAll() {
         return repository.findAllByOrderByTransactionsDateDesc();
     }
