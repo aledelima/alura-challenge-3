@@ -32,6 +32,7 @@
             <tr>
                 <th>Transactions Date</th>
                 <th>Imports Timestamp</th>
+                <th></th>
             </tr>
         </thead>
 
@@ -39,6 +40,7 @@
             <tr th:each="import : ${imports}">
                 <td><span th:text="${import.transactionsDate}"> Title </span></td>
                 <td><span th:text="${import.timeStamp}"> Author </span></td>
+                <td><a th:href="'/imports/' + ${import.id}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Details</a></td>
             </tr>
         </tbody>
     </table>
