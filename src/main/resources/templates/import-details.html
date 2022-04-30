@@ -5,6 +5,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Imports</a>
+                <a class="nav-item nav-link" href="#">Users</a>
+                <a class="nav-item nav-link" onclick="logout.submit()" href="#">Logout</a>
+                <form id="logout" method="post" th:action="@{/logout}" enctype="multipart/form-data"></form>
+            </div>
+        </div>
+    </nav>
+
 <section>
     <h2>Importation details</h2>
 
