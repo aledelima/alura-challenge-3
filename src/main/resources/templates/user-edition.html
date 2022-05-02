@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Spring Boot & Thymeleaf File Upload</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" th:href="@{/imports}">Imports</a>
+            <a class="nav-item nav-link active" th:href="@{/users}">Users</a>
+            <a class="nav-item nav-link" onclick="logout.submit()" href="#">Logout</a>
+            <form id="logout" method="post" th:action="@{/logout}" enctype="multipart/form-data"></form>
+        </div>
+    </div>
+</nav>
+
+<section>
+    <h2>User Registration</h2>
+
+    <p th:text="${message}" th:if="${message ne null}" class="alert alert-danger"></p>
+    <form method="post" th:action="@{/users/new}" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="username" class="col-sm-2 col-form-label">Username:</label>
+            <div class="col-sm-6">
+                <input id="username" name="username" class="form-control" type="text" placeholder="E-mail" readonly th:value="${user.username}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-sm-6">
+                <input id="name" name="name" class="form-control" type="text" placeholder="Name" th:value="${user.name}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="username" class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-6">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" th:value="${user.password}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</section>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 package br.com.alima.alurachallenge3.configuration;
 
 import br.com.alima.alurachallenge3.model.SystemUser;
-import br.com.alima.alurachallenge3.services.SystemUserService;
+import br.com.alima.alurachallenge3.repositories.SystemUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,18 +11,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class DBInit {
 
     @Autowired
-    private SystemUserService systemUserService;
+    private SystemUserRepository repo;
 
     @Bean
     public void populateMainUser() {
         SystemUser userAdmin = SystemUser.builder()
-                .email("admin@email.com.br")
+                .username("admin@email.com.br")
                 .name("Admin")
                 .password(new BCryptPasswordEncoder().encode("123999"))
                 .enabled(true)
                 .build();
 
-        systemUserService.create(userAdmin);
+        repo.save(userAdmin);
     }
 
 }

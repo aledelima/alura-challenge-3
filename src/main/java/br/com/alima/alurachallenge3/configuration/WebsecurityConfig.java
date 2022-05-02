@@ -29,12 +29,12 @@ public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin();
-
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
 //                .formLogin(form -> form
 //                        .loginPage("/login")
 //                        .permitAll()
 //                );
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 }

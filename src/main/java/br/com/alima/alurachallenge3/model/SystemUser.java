@@ -17,15 +17,9 @@ import java.util.List;
 @Builder
 public class SystemUser implements UserDetails {
 
-
-
-//    @Id
-//    @Column(name = "id", nullable = false)
-//    @Column(name = "id")
-//    private Long id;
     private String name;
     @Id
-    private String email;
+    private String username;
     private String password;
     private Boolean enabled;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -39,16 +33,16 @@ public class SystemUser implements UserDetails {
         this.profiles = profiles;
     }
 
-    public void setName(String username) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Boolean getEnabled() {
@@ -63,14 +57,6 @@ public class SystemUser implements UserDetails {
         this.password = password;
     }
 
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -81,10 +67,6 @@ public class SystemUser implements UserDetails {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
 
     public String getName() {
         return name;

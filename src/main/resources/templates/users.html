@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot & Thymeleaf File Upload</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" th:href="@{/imports}">Imports</a>
+            <a class="nav-item nav-link active" href="#">Users <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" onclick="logout.submit()" href="#">Logout</a>
+            <form id="logout" method="post" th:action="@{/logout}" enctype="multipart/form-data"></form>
+        </div>
+    </div>
+</nav>
+
+<section>
+    <h2>Users Registered</h2>
+
+    <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>User Name</th>
+                <th>User E-mail</th>
+                <th><a href="/users/new" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">New</a></th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td><span th:text="${user.name}"> Title </span></td>
+                <td><span th:text="${user.username}"> Author </span></td>
+                <td><a th:href="'/users/' + ${user.username}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Edit</a></td>
+                <td><a th:href="'/users/delete/' + ${user.username}" class="btn btn-danger btn-lg active" role="button" aria-pressed="true">Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+</body>
+</html>
