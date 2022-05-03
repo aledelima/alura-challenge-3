@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,12 +49,14 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public String creation() {
+    public String creation(NewUserDTO dto) {
         return "user-creation";
     }
 
-    @PostMapping(value = "/new")
-    public String create(@Valid NewUserDTO dto, RedirectAttributes attributes, Model model) {
+    @PostMapping(value = "/create")
+    public String create(@Valid NewUserDTO dto, BindingResult bind, RedirectAttributes attributes){//}, Model model) {
+
+        if (bind.hasErrors()) return "user-creation";
 
         SystemUser newUser = mapper.map(dto, SystemUser.class);
 
