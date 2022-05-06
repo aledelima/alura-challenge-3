@@ -17,8 +17,11 @@ import java.util.List;
 @Builder
 public class SystemUser implements UserDetails {
 
-    private String name;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String name;
     private String username;
     private String password;
     private Boolean enabled;

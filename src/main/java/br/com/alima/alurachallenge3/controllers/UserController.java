@@ -35,17 +35,30 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/{email}")
-    public String findByEmail(@PathVariable String email, RedirectAttributes attributes, Model model) {
+    @GetMapping("/{id}")
+    public String findById(@PathVariable Integer id, RedirectAttributes attributes, Model model) {
 
         try {
-            SystemUser user = userService.findByUsername(email);
+            SystemUser user = userService.findById(id);
             model.addAttribute("user", user);
         } catch (Exception ex) {
-            attributes.addFlashAttribute("message", "E-mail not registered.");
+            attributes.addFlashAttribute("message", "User Id not registered.");
+            return "users";
         }
 
         return "user-edition";
+    }
+
+    @GetMapping("/{id}/reset")
+    public String resetPassword(@PathVariable Integer id, RedirectAttributes attributes, Model model) {
+
+        try {
+            SystemUser user = userService.passwordReset(id);
+        } catch (Exception ex) {
+            attributes.addFlashAttribute("message", "User not registered.");
+        }
+        attributes.addFlashAttribute("message", "Password reset successfully.");
+        return "redirect:/users";
     }
 
     @GetMapping("/new")
