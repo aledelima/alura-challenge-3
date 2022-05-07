@@ -24,7 +24,7 @@
         <div class="jumbotron mt-1"><h2 class="display-4">User Registration</h2></div>
             <div class="card mt-1">
                 <p th:text="${message}" th:if="${message ne null}" class="alert alert-danger"></p>
-                <form th:object="${newUserDTO}" class="card-body" method="post" th:action="@{/users/create}" enctype="multipart/form-data">
+                <form th:object="${newUserDTO}" class="card-body" method="post" th:action="@{/users}" enctype="multipart/form-data">
                     <div class="form-group row">
                         <label for="username" class="col-sm-2 col-form-label">Username:</label>
 <!--                        <div class="col-sm-6">-->

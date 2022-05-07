@@ -69,4 +69,25 @@ public class SystemUserService {
 
     }
 
+    public void update(SystemUser newUser) {
+        SystemUser oldUser = this.findById(newUser.getId());  //Retrieves data already recorded
+        try {
+            SystemUser emailUser = this.findByUsername(newUser.getUsername());  //Checks new e-mail usage
+            if (oldUser.getId() != emailUser.getId())       //If used by another user but not the oldUser
+                throw new DataIntegrityViolationException("E-mail already used by another user.");
+            oldUser.setName(newUser.getName());             //Data update
+            oldUser.setUsername(newUser.getUsername());     //Data update
+            repository.save(oldUser);                       //Update
+        } catch (ObjectNotFoundException ex) {              //When new email not registered
+            oldUser.setName(newUser.getName());             //Data update
+            oldUser.setUsername(newUser.getUsername());     //Data update
+            repository.save(oldUser);                       //Update
+        }
+    }
+
+    public void delete(Integer id) {
+        SystemUser user = this.findById(id);
+        user.setEnabled(false);
+        repository.save(user);
+    }
 }
