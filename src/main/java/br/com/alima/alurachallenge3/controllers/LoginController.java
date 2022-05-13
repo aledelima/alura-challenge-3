@@ -10,13 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @AllArgsConstructor
 public class LoginController {
 
-//    @GetMapping
-//    public String viewForm(Model model) {
-//
-//        return "login";
-//
-//    }
-
     @GetMapping
     public String defaultUrl() {
         return "redirect:/imports";

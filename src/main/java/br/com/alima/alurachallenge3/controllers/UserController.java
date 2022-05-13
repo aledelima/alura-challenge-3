@@ -11,7 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -93,7 +96,12 @@ public class UserController {
         try {
             userService.update(user);
         } catch (DataIntegrityViolationException ex) {
-            attributes.addFlashAttribute("message", "E-mail already registered.");
+//            attributes.addFlashAttribute("message", "E-mail already registered.");
+            attributes.addFlashAttribute("message", ex.getMessage());
+            return "redirect:/users/"+dto.getId();
+        } catch (ObjectNotFoundException ex) {
+//            attributes.addFlashAttribute("message", "E-mail already registered.");
+            attributes.addFlashAttribute("message", ex.getMessage());
             return "redirect:/users/"+dto.getId();
         }
 
@@ -105,8 +113,11 @@ public class UserController {
     public String delete(@PathVariable Integer id, NewUserDTO dto, RedirectAttributes attributes) {
         try {
             userService.delete(id);
+        } catch (DataIntegrityViolationException ex) {
+            attributes.addFlashAttribute("message", ex.getMessage());
+            return "redirect:/users";
         } catch (ObjectNotFoundException ex) {
-            attributes.addFlashAttribute("message", "User Id not found.");
+            attributes.addFlashAttribute("message", ex.getMessage());
             return "redirect:/users";
         }
         attributes.addFlashAttribute("message", "User deleted successfully.");
