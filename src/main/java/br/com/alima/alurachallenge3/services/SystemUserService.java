@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -25,21 +24,18 @@ public class SystemUserService {
     public List<SystemUser> findAll() {
 //        List<SystemUser> users = repository.findAll();
 //        users.stream().filter(u -> !u.getUsername().equals("admin@email.com.br")).collect(Collectors.toList());
-        return repository.findAll().stream().filter(u -> !u.getUsername().equals("admin@email.com.br")).collect(Collectors.toList());
-//        return repository.findAll();
+//        return repository.findAll().stream().filter(u -> !u.getUsername().equals("admin@email.com.br")).collect(Collectors.toList());
+        return repository.findAll();
     }
     public SystemUser findById(Integer id) {
         SystemUser user = repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("User Id not found!"));
 
-        if (user.getUsername().equals("admin@email.com.br"))
-            throw new DataIntegrityViolationException("Prohibited action for this user.");
+//        if (user.getUsername().equals("admin@email.com.br"))
+//            throw new DataIntegrityViolationException("Prohibited action for this user.");
 
         return user;
     }
     public SystemUser findByUsername(String username) {
-        if (username.equals("admin@email.com.br"))
-            throw new DataIntegrityViolationException("Prohibited action for this user.");
-
         SystemUser user = repository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("E-mail not found!"));
         return user;
     }
@@ -90,9 +86,6 @@ public class SystemUserService {
     public void update(SystemUser newUser) {
         SystemUser oldUser = this.findById(newUser.getId());  //Retrieves data already recorded
         Authentication authentication = (new AuthenticationFacade()).getAuthentication();
-
-        if (authentication.getName().equals(oldUser.getUsername())) //Protect a user from editing himself
-            throw new DataIntegrityViolationException("A user cannot edit himself.");
 
         try {
             SystemUser emailUser = this.findByUsername(newUser.getUsername());  //Checks new e-mail usage

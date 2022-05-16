@@ -9,7 +9,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Imports <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" th:href="@{/imports}">Imports <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" th:href="@{/users}">Users</a>
             <a class="nav-item nav-link" onclick="logout.submit()" href="#">Logout</a>
             <form id="logout" method="post" th:action="@{/logout}" enctype="multipart/form-data"></form>

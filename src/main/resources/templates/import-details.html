@@ -10,8 +10,8 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="#">Imports</a>
-                <a class="nav-item nav-link" href="#">Users</a>
+                <a class="nav-item nav-link active" th:href="@{/imports}">Imports</a>
+                <a class="nav-item nav-link" th:href="@{/users}">Users</a>
                 <a class="nav-item nav-link" onclick="logout.submit()" href="#">Logout</a>
                 <form id="logout" method="post" th:action="@{/logout}" enctype="multipart/form-data"></form>
             </div>
@@ -31,7 +31,7 @@
         <div class="form-group row">
             <label for="importedBy" class="col-sm-2 col-form-label">Imported By:</label>
             <div class="col-sm-6">
-                <input id="importedBy" class="form-control" type="text" th:value="${import.getUsername()}" placeholder="Importation Author" readonly>
+                <input id="importedBy" class="form-control" type="text" th:value="${import.username}" placeholder="Importation Author" readonly>
             </div>
         </div>
         <div class="fform-group row">

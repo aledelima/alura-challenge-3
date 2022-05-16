@@ -1,10 +1,12 @@
 package br.com.alima.alurachallenge3.controllers;
 
 import br.com.alima.alurachallenge3.model.Importation;
+import br.com.alima.alurachallenge3.model.SystemUser;
 import br.com.alima.alurachallenge3.model.Transaction;
 import br.com.alima.alurachallenge3.model.dto.ImportationDTO;
 import br.com.alima.alurachallenge3.model.dto.TransactionDTO;
 import br.com.alima.alurachallenge3.services.ImportationService;
+import br.com.alima.alurachallenge3.services.SystemUserService;
 import br.com.alima.alurachallenge3.services.TransactionService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +31,7 @@ public class ImportationController {
 
     private TransactionService transactionService;
     private ImportationService importationService;
+    private SystemUserService userService;
     private ModelMapper mapper;
 
     @GetMapping
@@ -54,13 +58,14 @@ public class ImportationController {
                 .transactionsDate(imp.getTransactionsDate().toString())
                 .timeStamp(imp.getTimeStamp().format(formatter))
                 .transactions(transactions)
+                .username(imp.getUser().getUsername())
                 .build();
         model.addAttribute("import", impDTO);
         return "import-details";
     }
 
     @PostMapping
-    public String uploadCSVFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
+    public String uploadCSVFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes, Principal principal) {
 
         System.out.println(file.getOriginalFilename());
         System.out.println(file.getSize()/1000000.0 + "MB");
@@ -99,6 +104,8 @@ public class ImportationController {
             return "redirect:/imports";
         }
 
+        SystemUser user = userService.findByUsername(principal.getName());
+        transactions.forEach(t -> t.setUser(user));
         importationService.save(transactions);
 
 

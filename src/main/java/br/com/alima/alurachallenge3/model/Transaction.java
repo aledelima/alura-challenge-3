@@ -29,6 +29,8 @@ public class Transaction {
     private BigDecimal amount;
     private LocalDate date;
     private LocalTime time;
+    @ManyToOne
+    private SystemUser user;
 
     @ManyToOne
     @Nullable
